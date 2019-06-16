@@ -23,16 +23,14 @@ def get_smooth(x):
 
 sense = SenseHat()
 
-def get_temp():
+def get_enviromentals():
   t1 = sense.get_temperature_from_humidity()
   t2 = sense.get_temperature_from_pressure()
   t_cpu = get_cpu_temp()
-  # calculates the real temperature compesating CPU heating
-  t = (t1+t2)/2
-  t_corr = t - ((t_cpu-t)/1.825)
-  t_corr = get_smooth(t_corr)
-  return t_corr
-
-def get_enviromentals():
   h = sense.get_humidity()
   p = sense.get_pressure()
+  # calculates the real temperature compesating CPU heating
+  t = (t1+t2)/2
+  t_corr = t - ((t_cpu-t)/2.2)
+  t_corr = get_smooth(t_corr)
+  return {'temperature': t_corr, 'humidity': h, 'pressure':p, 'pi_cpu_temp':t_cpu}

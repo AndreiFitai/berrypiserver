@@ -1,19 +1,12 @@
-# import Flask
 import requests
-# from temp.py import tempreading
+import time
+import json
+from temp import get_enviromentals
 
-URL = "http://localhost:3000"
+URL = "http://192.168.178.27:3000/temp"
 
-# location given here 
-message = "hello from python server"
+payload = get_enviromentals()
   
-# defining a params dict for the parameters to be sent to the API 
-PARAMS = {'data':message} 
-  
-# sending get request and saving the response as response object 
-r = requests.post(url = URL, data = PARAMS) 
-  
-# extracting data in json format 
-data = r.text
-
-print(data)
+while True:
+    requests.post(url = URL, json = payload)
+    time.sleep(5)
